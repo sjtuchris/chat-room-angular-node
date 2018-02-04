@@ -43,4 +43,20 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
+// Configuring the database
+var dbConfig = require('./config/dbConfig.js');
+var mongoose = require('mongoose');
+
+mongoose.connect(dbConfig.url, {});
+
+mongoose.connection.on('error', function() {
+    console.log('Could not connect to the database. Exiting now...');
+    process.exit();
+});
+
+mongoose.connection.once('open', function() {
+    console.log("Successfully connected to the database");
+})
+
+
 module.exports = app;
