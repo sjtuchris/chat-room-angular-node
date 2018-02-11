@@ -1,0 +1,19 @@
+
+.chat-container {
+    position: fixed;
+    width: 95%; 
+    height: 80%;  
+    padding-right: 5%
+}
+
+.chat-footer-container {
+    position:fixed;
+    bottom:50px;
+    width: 100%;
+    /* left:25px;
+    right:25px; */
+}
+
+.mat-form-field.mat-form-field {
+    width: 70%;
+  }

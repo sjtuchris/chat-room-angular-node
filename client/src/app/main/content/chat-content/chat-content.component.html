@@ -1,0 +1,23 @@
+<div *ngIf="!currentUser">
+  Click on user to chat
+</div>
+
+<div class="chat-container">
+  <mat-card *ngFor="let item of chatList; let i=index">
+      <mat-card-header>
+          <mat-card-title>{{ item }}</mat-card-title>
+          <mat-card-subtitle>index Id: {{ i }}</mat-card-subtitle>
+          <img mat-card-avatar src="https://picsum.photos/300/300/?random" />
+        </mat-card-header>
+  </mat-card>
+</div>
+
+<div class="chat-footer-container">
+
+  <mat-icon class="mat-18">message</mat-icon>
+  <mat-form-field>
+      <textarea type="text" matInput #inputMessage maxlength="140" placeholder="type..." [(ngModel)]="messageContent" (keyup.enter)="sendMessage(messageContent)" 
+      ></textarea>
+      <mat-hint align="end"> {{ inputMessage.value.length}} / 140</mat-hint>
+  </mat-form-field>
+</div>
