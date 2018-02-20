@@ -8,19 +8,25 @@ import { MainComponent } from './main.component';
 import { ContentComponent } from './content/content.component';
 
 import { MainRoutingModule } from './main-routing.module';
-import { ListComponent } from './content/list/list.component';
+import { UserModule } from './user/user.module';
+
 import { ChatContentComponent } from './content/chat-content/chat-content.component';
 
+import { LoginDialogComponent } from './user/login-dialog/login-dialog.component';
+
+// declare user component here?
 @NgModule({
   imports: [
     CommonModule,
     MainRoutingModule,
     SharedModule,
-    FormsModule
+    FormsModule,
+    UserModule
   ],
-  declarations: [MainComponent, ContentComponent, ListComponent, ChatContentComponent],
+  declarations: [MainComponent, ContentComponent, ChatContentComponent],
   exports:[
-    MainComponent
+    MainComponent,
+    UserModule
   ]
 })
 export class MainModule { }

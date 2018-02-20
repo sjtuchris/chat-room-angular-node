@@ -5,24 +5,34 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { MainModule } from './main/main.module';
-import { UserModule } from './user/user.module';
 import { SharedModule } from './shared/shared.module';
+import { UserModule } from './main/user/user.module';
 
+// services
+import { AuthGuardService } from './service/auth-guard.service';
+import { MessageService } from './service/message.service';
+import { UserService } from './service/user.service';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     MainModule,
-    UserModule,
     SharedModule,
-
+    UserModule, 
+    FormsModule, ReactiveFormsModule,
   ],
-  providers: [],
+  providers: [AuthGuardService, 
+    MessageService,
+    UserService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

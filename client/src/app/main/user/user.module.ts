@@ -6,16 +6,29 @@ import { EditComponent } from './edit/edit.component';
 import { EntryComponent } from './entry/entry.component';
 
 import { UserRoutingModule } from './user-routing.module';
+import { UserComponent } from './user.component';
+
+import { SharedModule } from '../../shared/shared.module';
+import { LoginDialogComponent } from './login-dialog/login-dialog.component';
+
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   imports: [
     CommonModule,
-    UserRoutingModule
+    UserRoutingModule,
+    SharedModule,
+    FormsModule, ReactiveFormsModule
   ],
   declarations: [
     AddComponent,
     EditComponent,
-    EntryComponent
+    EntryComponent,
+    UserComponent,
+    LoginDialogComponent
+  ],
+  entryComponents: [
+    LoginDialogComponent
   ]
 })
 export class UserModule { }

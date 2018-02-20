@@ -2,6 +2,13 @@
   Click on user to chat
 </div>
 
+<mat-toolbar>
+  <span>
+    <img mat-card-avatar src="https://picsum.photos/300/300/?random" />
+    status
+  </span>
+</mat-toolbar>
+
 <div class="chat-container">
   <mat-card *ngFor="let item of chatList; let i=index">
       <mat-card-header>
@@ -20,4 +27,7 @@
       ></textarea>
       <mat-hint align="end"> {{ inputMessage.value.length}} / 140</mat-hint>
   </mat-form-field>
+  <button mat-icon-button>
+    <mat-icon class="mat-18">send</mat-icon>
+  </button>
 </div>

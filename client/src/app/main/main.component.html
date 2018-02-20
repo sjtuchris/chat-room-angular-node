@@ -23,7 +23,7 @@
     </mat-toolbar>
 
     <!-- sidenav -->
-    <mat-sidenav mode="over" align="start" #sideNav class="demo-app-sidenav">
+    <mat-sidenav mode="push" align="start" #sideNav class="demo-app-sidenav">
         <!-- user, avatar etc-->
         <mat-card>
             <img mat-card-sm-image src="https://visualpharm.com/assets/448/User-595b40b85ba036ed117dbd22.svg">
@@ -38,7 +38,7 @@
                 <button mat-button (click)="edit()" color="warn">
                     <mat-icon> edit </mat-icon> Edit
                 </button>
-                <button mat-button (click)="login()" color="primary">
+                <button mat-button (click)="openDialog()" color="primary">
                         <mat-icon> person </mat-icon> Login
                     </button>
                     
