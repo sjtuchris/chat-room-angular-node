@@ -143,18 +143,18 @@ exports.delete = function(req, res) {
 };
 
 exports.login = function(req, res) {
-    User.findOne({
+    Credential.findOne({
         username: req.body.username,
-        password: req.body.password
-    }, function(err, user) {
-        if(err) {
-            // res.status(500).send({message: "Could not delete note with id " + req.params.id});
+        password: req.body.password,
+    }, function(err, userData) {
+        if (err) {
+            res.send({ message: "Some error occur during login. Try again"});
+        } else if (userData) {
             res.send({
-                message: "username or password invalid"
-            })
+                message: userData.username + " login successful"
+            });
         } else {
-            res.send({
-                message: "login successful"
-            })
-    }})
+            res.send({ message: "username or password invalid"});
+        }
+    });
 }
