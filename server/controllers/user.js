@@ -135,15 +135,11 @@ exports.update = function(req, res) {
     });
 };
 
+// Need improvement to make sure two operations both succeed
 exports.delete = function(req, res) {
-    // Delete a note with the specified noteId in the request
-    User.remove({_id: req.params.id}, function(err, data) {
-        if(err) {
-            res.status(500).send({message: "Could not delete note with id " + req.params.id});
-        } else {
-            res.send({message: "Note deleted successfully!"})
-        }
-    });
+    User.findByIdAndRemove(req.params.id).exec();
+    Credential.findByIdAndRemove(req.params.id).exec();
+    res.send({message: req.params.id + " credential deleted successfully!"})
 };
 
 exports.login = function(req, res) {
