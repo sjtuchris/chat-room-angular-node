@@ -1,32 +1,65 @@
 var User = require('../models/user.js');
+var Credential = require('../models/credential.js')
 
 exports.create = function(req, res) {
-    // Create and Save a new Note
-    if(!req.body.username) {
-        res.status(400).send({message: "Username can not be empty"});
+    if (!req.body.username) {
+        res.status(400).send( { message: "Username cannot be empty" } );
+    } else if (!req.body.password) {
+        res.status(400).send( { message: "Password cannot be empty"} );
     } else {
-        var user = new User({
-            username: req.body.username,
-            gender: req.body.gender,
-            avatar: req.body.avatar,
-            registerDate: new Date(), // ?
-            lastLogin: new Date(),
-            status: "Active",
-            password: req.body.password
-        });
-
-        user.save(function(err, data) {
-            console.log(data);
-            if(err) {
+        // Check if username has already been taken
+        Credential.findOne({ "username" : req.body.username}, function(err, data) {
+            if (err) {
                 console.log(err);
-                res.status(500).send({message: "Some error occurred while creating the User."});
+                res.status(500).send({ message: "Some error occured while creating the user" });
+            } else if (data) {
+                console.log(data);
+                res.send({ message: "This username already exists" });
             } else {
-                res.send({
-                    message: `${req.body.username} successfully created`
-                })
+                // valid username, create new user
+                var credential = new Credential({
+                    username: req.body.username,
+                    password: req.body.password,
+                });
+
+                credential.save(function(err, data) {
+                    console.log(data);
+                    if (err) {
+                        console.log(err);
+                        res.status(500).send({message: "Some error occured while creating the user"});
+                    } else {
+                        var userid = data._id
+                        res.send({ message: userid + " successfully created"});
+                    }
+                });
             }
         });
     }
+    // if(!req.body.username) {
+    //     res.status(400).send({message: "Username can not be empty"});
+    // } else {
+    //     var user = new User({
+    //         username: req.body.username,
+    //         gender: req.body.gender,
+    //         avatar: req.body.avatar,
+    //         registerDate: new Date(), // ?
+    //         lastLogin: new Date(),
+    //         status: "Active",
+    //         password: req.body.password
+    //     });
+
+    //     user.save(function(err, data) {
+    //         console.log(data);
+    //         if(err) {
+    //             console.log(err);
+    //             res.status(500).send({message: "Some error occurred while creating the User."});
+    //         } else {
+    //             res.send({
+    //                 message: `${req.body.username} successfully created`
+    //             })
+    //         }
+    //     });
+    // }
 };
 
 // exports.findAll = function(req, res) {
