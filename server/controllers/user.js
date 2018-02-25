@@ -35,6 +35,18 @@ exports.create = function(req, res) {
                             registerDate: new Date(), // ?
                             lastLogout: new Date(),
                             status: "Active",
+
+                            // initialize empty values
+                            nickname: req.body.username,
+                            email: "",
+                            whatsUp: "",
+                            gender: "",
+                            avatar: "",
+                            firstName: "",
+                            lastName: "",
+                            country: "",
+                            online: true,
+                            threadList: [],
                         });
 
                         user.save(function(err, data) {
@@ -65,10 +77,9 @@ exports.create = function(req, res) {
 // };
 
 exports.findOne = function(req, res) {
-    // Find a single note with a noteId
     User.findById(req.params.id, function(err, data) {
         if(err) {
-            res.status(500).send({message: `${req.body.id} doesn't exist!`});
+            res.status(500).send({message: req.params.id + " doesn't exist!"});
         } else {
             res.send(data);
         }
@@ -76,23 +87,48 @@ exports.findOne = function(req, res) {
 };
 
 exports.update = function(req, res) {
-    // Update a note identified by the noteId in the request
     User.findById(req.params.id, function(err, user) {
         if(err) {
-            res.status(500).send({message: `${req.body.id} doesn't exist!`});
+            res.status(500).send({message: req.params.id + "doesn't exist!"});
         }
 
-        user.username = req.body.username;
-        user.gender = req.body.gender;
-        user.avatar = req.body.avatar;
-        user.password = req.body.password;
+        if (req.body.username) {
+            user.username = req.body.username;
+        }
+        if (req.body.gender) {
+            user.gender = req.body.gender;
+        }
+        if (req.body.avatar) {
+            user.avatar = req.body.avatar;
+        }
+        if (req.body.nickname) {
+            user.nickname = req.body.nickname;
+        }
+        if (req.body.email) {
+            user.email = req.body.email;
+        }
+        if (req.body.avatar) {
+            user.avatar = req.body.avatar;
+        }
+        if (req.body.firstName) {
+            user.firstName = req.body.firstName;
+        }
+        if (req.body.lastName) {
+            user.lastName = req.body.lastName;
+        }
+        if (req.body.country) {
+            user.country = req.body.country;
+        }
+        if (req.body.online) {
+            user.online = req.body.online;
+        }
     
         user.save(function(err, data){
             if(err) {
                 res.status(500).send({message: "Could not update note with id " + req.params.username});
             } else {
                 res.send({
-                    message: `${req.body.username} successfully updated`
+                    message: req.params.id + " successfully updated"
                 });
             }
         });
