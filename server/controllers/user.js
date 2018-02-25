@@ -21,45 +21,36 @@ exports.create = function(req, res) {
                     username: req.body.username,
                     password: req.body.password,
                 });
-
                 credential.save(function(err, data) {
                     console.log(data);
                     if (err) {
                         console.log(err);
                         res.status(500).send({message: "Some error occured while creating the user"});
                     } else {
+                        // create user in User table
                         var userid = data._id
-                        res.send({ message: userid + " successfully created"});
+                        var user = new User({
+                            _id: userid,
+                            username: req.body.username,
+                            registerDate: new Date(), // ?
+                            lastLogout: new Date(),
+                            status: "Active",
+                        });
+
+                        user.save(function(err, data) {
+                            if(err) {
+                                console.log(err);
+                                res.status(500).send({message: "Some error occurred while creating the User."});
+                            } else {
+                                res.send({ message: userid + " successfully created"});
+                            }
+                        });
+                        
                     }
                 });
             }
         });
     }
-    // if(!req.body.username) {
-    //     res.status(400).send({message: "Username can not be empty"});
-    // } else {
-    //     var user = new User({
-    //         username: req.body.username,
-    //         gender: req.body.gender,
-    //         avatar: req.body.avatar,
-    //         registerDate: new Date(), // ?
-    //         lastLogin: new Date(),
-    //         status: "Active",
-    //         password: req.body.password
-    //     });
-
-    //     user.save(function(err, data) {
-    //         console.log(data);
-    //         if(err) {
-    //             console.log(err);
-    //             res.status(500).send({message: "Some error occurred while creating the User."});
-    //         } else {
-    //             res.send({
-    //                 message: `${req.body.username} successfully created`
-    //             })
-    //         }
-    //     });
-    // }
 };
 
 // exports.findAll = function(req, res) {
