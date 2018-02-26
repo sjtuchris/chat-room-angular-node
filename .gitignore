@@ -1,0 +1,2 @@
+# Don't push node modules
+server/node_modules/
