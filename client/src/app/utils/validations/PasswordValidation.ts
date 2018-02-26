@@ -5,12 +5,12 @@ export class PasswordValidation {
     passwordRStr = 'repeatpassword';
 
     static MatchPassword(ac: AbstractControl) {
-        let password = ac.get(this.passwordStr).value;
-        let rePassword = ac.get(this.passwordRStr).value;
+        // let password = ac.get(this.passwordStr).value;
+        // let rePassword = ac.get(this.passwordRStr).value;
 
-        if(password != rePassword) {
-            console.log("passsword not match");
-            ac.get('repeatpassword')
-        }
+        // if(password != rePassword) {
+        //     console.log("passsword not match");
+        //     ac.get('repeatpassword')
+        // }
     }
 }

@@ -9,7 +9,7 @@ import { RegisterUser } from '../model/register-user';
 @Injectable()
 export class UserService {
   
-  baseURL: string = 'localhost:3000';
+  baseURL: string = 'http://localhost:3000';
 
   currentUser: User;
   constructor(private httpClient: HttpClient) { }
@@ -29,10 +29,9 @@ export class UserService {
     return false;
   } 
 
-  register(user: RegisterUser): void {
-    this.httpClient.post(this.baseURL + '/users/create', JSON.stringify(user)).subscribe((data) => {
-      console.log(data);
-    })
+  register(username: string, password: string): Observable<User> {
+    const body = {username: username, password: password}
+    return this.httpClient.post<User>(this.baseURL + '/users/create', body);
   }
 
   logout(): void {
