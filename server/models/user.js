@@ -2,12 +2,19 @@ var mongoose = require('mongoose');
 
 var UserSchema = mongoose.Schema({
     username: String,
+    nickname: String,
+    email: String,
+    whats_up: String,
     gender: String,
     avator: String,
+    firstName: String,
+    lastName: String,
+    country: String,
     registerDate: Date,
-    lastLogin: Date,
     status: String,
-    password: String
+    online: Boolean,
+    lastLogout: Date,
+    threadList: [String],
 }, {
     timestamps: true
 });
