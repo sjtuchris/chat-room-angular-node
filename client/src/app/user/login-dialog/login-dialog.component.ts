@@ -28,7 +28,7 @@ export class LoginDialogComponent implements OnInit {
       data: {
         name: "",
         animal: ""
-      }
+      }, disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log("dialog closed");

@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material';
 import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { UserService } from '../../service/user.service';
 
 @Component({
   selector: 'app-register-dialog',
@@ -9,13 +11,24 @@ import { LoginDialogComponent } from '../login-dialog/login-dialog.component';
 })
 export class RegisterDialogComponent implements OnInit {
 
+  registerForm: FormGroup;
+
   constructor(
     public registerDialogRef: MatDialogRef<RegisterDialogComponent>,
     // public loginDialogRef: MatDialogRef<LoginDialogComponent>,
     public dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder,
+    private userService: UserService) { }
 
   ngOnInit() {
+    this.registerForm = this.fb.group({
+      username: ['', [Validators.required, Validators.minLength(6)]],
+      nickname: ['', [Validators.required, Validators.minLength(6)]],
+      password: ['', [Validators.required, Validators.minLength(6)]],
+      repeatpassword: ['', [Validators.required]],
+      email: ['', [Validators.email]]
+    })
   }
 
 
@@ -27,18 +40,17 @@ export class RegisterDialogComponent implements OnInit {
       data: {
         name: "",
         animal: ""
-      }
+      }, disableClose: true
     });
     dialogRef.afterClosed().subscribe(result => {
       console.log("dialog closed");
     });
   }
 
-  onNoClick(): void {
-    console.log(this.data.username);
-    console.log(this.data.password);
-    // inject user service
-    this.registerDialogRef.close();
+  onRegisterClick(): void {
+    console.log(this.registerForm.value);
+    this
   }
+
 
 }
