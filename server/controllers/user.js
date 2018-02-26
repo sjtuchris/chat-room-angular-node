@@ -1,65 +1,47 @@
 var User = require('../models/user.js');
-var Credential = require('../models/credential.js')
 
 exports.create = function(req, res) {
-    console.log(req);
-
     if (!req.body.username) {
         res.status(400).send( { message: "Username cannot be empty" } );
     } else if (!req.body.password) {
         res.status(400).send( { message: "Password cannot be empty"} );
     } else {
         // Check if username has already been taken
-        Credential.findOne({ "username" : req.body.username}, function(err, data) {
+        User.findOne({ "username" : req.body.username}, function(err, data) {
             if (err) {
                 console.log(err);
-                res.status(500).send({ message: "Some error occured while creating the user" });
+                res.send({ message: "Some error occured while creating the user", status: "2" });
             } else if (data) {
                 console.log(data);
-                res.send({ message: "This username already exists", status: "6666"});
+                res.send({ message: "This username already exists", status: "1" });
             } else {
-                // valid username, create new user
-                var credential = new Credential({
+                // create user in User table
+                var user = new User({
                     username: req.body.username,
                     password: req.body.password,
+                    registerDate: new Date(), // ?
+                    lastLogout: new Date(),
+                    status: "Active",
+
+                    // initialize empty values
+                    nickname: req.body.username,
+                    email: "",
+                    whatsUp: "",
+                    gender: "",
+                    avatar: "",
+                    firstName: "",
+                    lastName: "",
+                    country: "",
+                    online: true,
+                    threadList: [],
                 });
-                credential.save(function(err, data) {
-                    console.log(data);
-                    if (err) {
+
+                user.save(function(err, data) {
+                    if(err) {
                         console.log(err);
-                        res.status(500).send({message: "Some error occured while creating the user"});
+                        res.send({ message: "Some error occurred while creating the User.", status: "2" });
                     } else {
-                        // create user in User table
-                        var userid = data._id
-                        var user = new User({
-                            _id: userid,
-                            username: req.body.username,
-                            registerDate: new Date(), // ?
-                            lastLogout: new Date(),
-                            status: "Active",
-
-                            // initialize empty values
-                            nickname: req.body.username,
-                            email: "",
-                            whatsUp: "",
-                            gender: "",
-                            avatar: "",
-                            firstName: "",
-                            lastName: "",
-                            country: "",
-                            online: true,
-                            threadList: [],
-                        });
-
-                        user.save(function(err, data) {
-                            if(err) {
-                                console.log(err);
-                                res.status(500).send({message: "Some error occurred while creating the User."});
-                            } else {
-                                res.send({ message: userid + " successfully created", data: data });
-                            }
-                        });
-                        
+                        res.send({ message: user._id + " successfully created", status: "0"});
                     }
                 });
             }
@@ -80,83 +62,125 @@ exports.create = function(req, res) {
 
 exports.findOne = function(req, res) {
     User.findById(req.params.id, function(err, data) {
-        if(err) {
-            res.status(500).send({message: req.params.id + " doesn't exist!"});
+        if (err) {
+            res.send({
+                message: req.params.id + " error during find",
+                status: "2"
+            });
+        } else if (!data) {
+            res.send({
+                message: req.params.id + " user not exist",
+                status: "1"
+            });
         } else {
-            res.send(data);
+            res.send({
+                data: data,
+                status: "0"
+            });
         }
     });
 };
 
 exports.update = function(req, res) {
-    User.findById(req.params.id, function(err, user) {
-        if(err) {
-            res.status(500).send({message: req.params.id + "doesn't exist!"});
-        }
-
-        if (req.body.username) {
-            user.username = req.body.username;
-        }
-        if (req.body.gender) {
-            user.gender = req.body.gender;
-        }
-        if (req.body.avatar) {
-            user.avatar = req.body.avatar;
-        }
-        if (req.body.nickname) {
-            user.nickname = req.body.nickname;
-        }
-        if (req.body.email) {
-            user.email = req.body.email;
-        }
-        if (req.body.avatar) {
-            user.avatar = req.body.avatar;
-        }
-        if (req.body.firstName) {
-            user.firstName = req.body.firstName;
-        }
-        if (req.body.lastName) {
-            user.lastName = req.body.lastName;
-        }
-        if (req.body.country) {
-            user.country = req.body.country;
-        }
-        if (req.body.online) {
-            user.online = req.body.online;
-        }
-    
-        user.save(function(err, data){
+    if (req.body.id) {
+        User.findById(req.body.id, function(err, user) {
             if(err) {
-                res.status(500).send({message: "Could not update note with id " + req.params.username});
-            } else {
                 res.send({
-                    message: req.params.id + " successfully updated"
+                    message: req.body.id + " error during update",
+                    status: "2"
+                });
+            } else if (!user) {
+                res.send({
+                    message: req.body.id + " user not exist",
+                    status: "1"
+                });
+            } else {
+                if (req.body.username) {
+                    user.username = req.body.username;
+                }
+                if (req.body.gender) {
+                    user.gender = req.body.gender;
+                }
+                if (req.body.avatar) {
+                    user.avatar = req.body.avatar;
+                }
+                if (req.body.nickname) {
+                    user.nickname = req.body.nickname;
+                }
+                if (req.body.email) {
+                    user.email = req.body.email;
+                }
+                if (req.body.avatar) {
+                    user.avatar = req.body.avatar;
+                }
+                if (req.body.firstName) {
+                    user.firstName = req.body.firstName;
+                }
+                if (req.body.lastName) {
+                    user.lastName = req.body.lastName;
+                }
+                if (req.body.country) {
+                    user.country = req.body.country;
+                }
+                if (req.body.online) {
+                    user.online = req.body.online;
+                }
+            
+                user.save(function(err, data){
+                    if(err) {
+                        res.send({ 
+                            message: "Could not update note with id " + req.body.username,
+                            status: "2"
+                        });
+                    } else {
+                        res.send({
+                            message: req.body.id + " successfully updated",
+                            status: "0"
+                        });
+                    }
                 });
             }
         });
-    });
+    } else {
+        res.send({
+            message: "user id is empty",
+            status: "1"
+        });
+    }
+ 
 };
 
 // Need improvement to make sure two operations both succeed
 exports.delete = function(req, res) {
-    User.findByIdAndRemove(req.params.id).exec();
-    Credential.findByIdAndRemove(req.params.id).exec();
-    res.send({message: req.params.id + " credential deleted successfully!"})
+    User.findById(req.body.id, function(err, user) {
+        if (err) {
+            res.send({ message: req.body.id + " error during delete", status: "2"});
+        } else if (!user) {
+            res.send({ message: req.body.id + " user not exist", status: "1"});
+        } else {
+            user.status = "Suspended";
+            user.save(function(err, data) {
+                if (err) {
+                    res.send({ message: req.body.id + " error during delete", status: "2"});
+                } else {
+                    res.send({message: req.body.id + " credential deleted successfully!", status: "0"})
+                }
+            });
+        }
+    });
 };
 
 exports.login = function(req, res) {
-    Credential.findOne({
+    User.findOne({
         username: req.body.username,
         password: req.body.password,
     }, function(err, userData) {
         if (err) {
-            res.send({ message: "Some error occur during login. Try again"});
+            res.send({ message: "Some error occur during login. Try again", status: "2"});
         } else if (userData) {
-            res.send({
-                message: userData.username + " login successful"
-            });
+            res.send({ message: userData.username + " login successful", status: "0"});
         } else {
-            res.send({ message: "username or password invalid"});
+            res.send({ message: "username or password invalid", status: "1"});
         }
     });
 }
