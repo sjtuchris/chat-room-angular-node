@@ -13,6 +13,8 @@ const routes: Routes = [
     // path: 'main', component: MainComponent // 好像不能使用懒加载
     path: 'main', loadChildren: 'app/main/main.module#MainModule'
   }, {
+    path: 'user', loadChildren: 'app/user/user.module#UserModule'
+  }, {
     path: '**', component: NotFoundComponent
   }
 ]

@@ -8,11 +8,9 @@ import { MainComponent } from './main.component';
 import { ContentComponent } from './content/content.component';
 
 import { MainRoutingModule } from './main-routing.module';
-import { UserModule } from './user/user.module';
 
 import { ChatContentComponent } from './content/chat-content/chat-content.component';
-
-import { LoginDialogComponent } from './user/login-dialog/login-dialog.component';
+import { ChatListComponent } from './content/chat-list/chat-list.component';
 
 // declare user component here?
 @NgModule({
@@ -21,12 +19,10 @@ import { LoginDialogComponent } from './user/login-dialog/login-dialog.component
     MainRoutingModule,
     SharedModule,
     FormsModule,
-    UserModule
   ],
-  declarations: [MainComponent, ContentComponent, ChatContentComponent],
+  declarations: [MainComponent, ContentComponent, ChatContentComponent, ChatListComponent],
   exports:[
     MainComponent,
-    UserModule
   ]
 })
 export class MainModule { }

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
   templateUrl: './content.component.html',
   styleUrls: ['./content.component.css']
 })
+
 export class ContentComponent implements OnInit {
 
   constructor(private router: Router) { 

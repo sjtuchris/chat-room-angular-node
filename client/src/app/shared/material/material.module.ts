@@ -16,6 +16,8 @@ import {
   MatExpansionModule,
   MatGridListModule,
   MatTabsModule,
+  MAT_DIALOG_DATA,
+  MatStepperModule
 } from '@angular/material';
 
 @NgModule({
@@ -34,6 +36,7 @@ import {
     MatExpansionModule, 
     MatGridListModule,
     MatTabsModule,
+    MatStepperModule,
   ],
   exports: [
     MatMenuModule,
@@ -49,10 +52,12 @@ import {
     MatExpansionModule,
     MatGridListModule,
     MatTabsModule,
+    MatStepperModule
   ],
   declarations: [],
   providers: [
-    MatDialog
+    MatDialog,
+     { provide: MAT_DIALOG_DATA, useValue: {} }
   ]
 })
 
