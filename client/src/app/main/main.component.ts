@@ -36,16 +36,5 @@ export class MainComponent implements OnInit {
     this.router.navigate(['/main', 'user', 'entry'])
   }
 
-  openDialog() {
-    let dialogRef = this.dialog.open(LoginDialogComponent, {
-      data: {
-        name: this.name,
-        animal: this.animal
-      }
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      console.log("dialog closed");
-      this.animal = result;
-    });
-  }
+  
 }
