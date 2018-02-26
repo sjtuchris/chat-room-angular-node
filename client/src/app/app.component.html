@@ -1,4 +1,55 @@
 <!-- <app-main>
 </app-main> -->
 
-<router-outlet></router-outlet>
+<!-- header -->
+<mat-sidenav-container fullscreen class="demo-app-container">
+    <mat-toolbar class="header" color="primary">
+        <button mat-icon-button (click)="sideNav.toggle()">
+            <mat-icon class="mat-18">
+                {{ sideNav.opened? "close":"menu"}}
+            </mat-icon>
+        </button>
+        &nbsp;&nbsp; Chatroom
+        <span class="toolbar-seprator"></span>
+        <button mat-icon-button [matMenuTriggerFor]="messageMenu" #menuTrigger="matMenuTrigger">
+            <mat-icon>message</mat-icon>
+        </button>
+        <mat-menu #messageMenu="matMenu">
+            <button mat-menu-item> 最新资讯</button>
+            <button mat-menu-item> 讯息设定</button>
+        </mat-menu>
+        <button mat-icon-button>
+        <mat-icon>
+            exit_to_app
+        </mat-icon>
+        </button>
+    </mat-toolbar>
+
+    <!-- sidenav -->
+    <mat-sidenav mode="push" align="start" #sideNav class="demo-app-sidenav">
+        <!-- user, avatar etc-->
+        <mat-card>
+            <img mat-card-sm-image src="https://visualpharm.com/assets/448/User-595b40b85ba036ed117dbd22.svg">
+            <mat-card-header>
+                <mat-card-title>User Name</mat-card-title>
+                <mat-card-subtitle>What's up</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                Text content
+            </mat-card-content>
+            <mat-card-actions align="start">
+                <button mat-button (click)="edit()" color="warn">
+                    <mat-icon> edit </mat-icon> Edit
+                </button>
+                <button mat-button (click)="openDialog()" color="primary">
+                        <mat-icon> person </mat-icon> Login
+                    </button>
+                    
+            </mat-card-actions>
+
+        </mat-card>
+    </mat-sidenav>
+    <!-- Body, chat list, content etc -->
+    <router-outlet></router-outlet>
+</mat-sidenav-container>
+

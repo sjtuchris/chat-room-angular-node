@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormsModule, ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-edit',
@@ -7,9 +8,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EditComponent implements OnInit {
 
+  isLinear: boolean;
+  surveyForm: FormGroup;
   constructor() { }
 
   ngOnInit() {
+    this.surveyForm = new FormGroup({
+      basicQuestions: new FormGroup({
+        name: new FormControl('', Validators.required)
+      })
+    })
   }
 
 }

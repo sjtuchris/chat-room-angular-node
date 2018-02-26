@@ -1,3 +1,22 @@
-<p>
-  edit works!
-</p>
+<form [formGroup]="surveyForm">
+  <mat-vertical-stepper [linear]="isLinear">
+    <mat-step formGroupName="basicQuestions" [stepControl]="surveyForm.get('basicQuestions')">
+      <ng-template matStepLabel>
+        <u>個人資訊</u>
+      </ng-template>
+      <h4>提供個人資訊</h4>
+      <mat-form-field>
+        <input name="name" matInput placeholder="姓名" formControlName="name" required>
+      </mat-form-field>
+      <div>
+        <button mat-button matStepperNext>前進到「詳細問題」</button>
+      </div>
+    </mat-step>
+    <mat-step>
+      ...
+    </mat-step>
+    <mat-step label="其他">
+      ...
+    </mat-step>
+  </mat-vertical-stepper>
+</form>

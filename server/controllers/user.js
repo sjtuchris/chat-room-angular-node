@@ -2,6 +2,8 @@ var User = require('../models/user.js');
 var Credential = require('../models/credential.js')
 
 exports.create = function(req, res) {
+    console.log(req);
+
     if (!req.body.username) {
         res.status(400).send( { message: "Username cannot be empty" } );
     } else if (!req.body.password) {
@@ -14,7 +16,7 @@ exports.create = function(req, res) {
                 res.status(500).send({ message: "Some error occured while creating the user" });
             } else if (data) {
                 console.log(data);
-                res.send({ message: "This username already exists" });
+                res.send({ message: "This username already exists", status: "6666"});
             } else {
                 // valid username, create new user
                 var credential = new Credential({
@@ -54,7 +56,7 @@ exports.create = function(req, res) {
                                 console.log(err);
                                 res.status(500).send({message: "Some error occurred while creating the User."});
                             } else {
-                                res.send({ message: userid + " successfully created"});
+                                res.send({ message: userid + " successfully created", data: data });
                             }
                         });
                         
